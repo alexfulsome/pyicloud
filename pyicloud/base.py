@@ -546,8 +546,14 @@ class PyiCloudService:
 
     @property
     def iphone(self):
-        """Returns the iPhone."""
-        return self.devices[0]
+        """Returns the most recent iPhone."""
+        iphones = [device for device in self.devices if 'iPhone' in device['deviceDisplayName']]
+
+        if not iphones:
+            return None
+        most_recent_iphone = max(iphones, key=lambda d: int(d['deviceDisplayName'].split()[1]))
+
+        return most_recent_iphone
 
     @property
     def account(self):
